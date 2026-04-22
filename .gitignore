@@ -47,6 +47,8 @@ Thumbs.db
 .wrangler/
 .wrangler
 wrangler.toml.local
+wrangler.toml
+
 
 # Database
 *.sqlite
@@ -62,3 +64,7 @@ build/
 .dev.vars
 .env.local
 .env.*.local
+
+
+
+backend/wrangler.toml
