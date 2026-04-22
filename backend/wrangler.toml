@@ -1,0 +1,67 @@
+name = "social-media-ads-backend"
+type = "service"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+route = "api.socialmediaads.com/*"
+
+[env.staging]
+route = "staging-api.socialmediaads.com/*"
+
+[env.development]
+route = "http://localhost:8787/*"
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "socialmediaads"
+database_id = "your-d1-database-id"
+
+# KV Namespace for caching and token storage
+[[kv_namespaces]]
+binding = "CACHE"
+id = "your-kv-namespace-id"
+
+# R2 Bucket for media storage
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "socialmediaads-media"
+
+# Queue for async job processing
+[[queues.consumers]]
+queue = "publish-queue"
+service = "social-media-ads-backend"
+
+# Durable Objects
+[durable_objects]
+bindings = [
+  { name = "CAMPAIGN_ORCHESTRATOR", class_name = "CampaignOrchestrator", script_name = "social-media-ads-backend" },
+  { name = "RATE_LIMITER", class_name = "RateLimiter", script_name = "social-media-ads-backend" }
+]
+
+# Environment variables
+[env.production.vars]
+JWT_SECRET = "your-jwt-secret-key"
+OPENAI_API_KEY = "your-openai-api-key"
+ENVIRONMENT = "production"
+
+[env.staging.vars]
+JWT_SECRET = "staging-jwt-secret"
+OPENAI_API_KEY = "staging-openai-key"
+ENVIRONMENT = "staging"
+
+[env.development.vars]
+JWT_SECRET = "dev-secret"
+OPENAI_API_KEY = "dev-key"
+ENVIRONMENT = "development"
+
+# Triggers for Cron Jobs
+[[triggers.crons]]
+cron = "0 */6 * * *"  # Every 6 hours
+
+# Build configuration
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.js"]
