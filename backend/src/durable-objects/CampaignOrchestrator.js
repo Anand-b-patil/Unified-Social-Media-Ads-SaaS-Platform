@@ -3,10 +3,11 @@
  * Handles stateful campaign orchestration and rate limiting
  */
 
-class CampaignOrchestrator {
+import { DurableObject } from 'cloudflare:workers';
+
+export class CampaignOrchestrator extends DurableObject {
   constructor(state, env) {
-    this.state = state;
-    this.env = env;
+    super(state, env);
     this.campaignState = {};
     this.rateLimits = {};
   }
@@ -155,4 +156,4 @@ class CampaignOrchestrator {
   }
 }
 
-module.exports = CampaignOrchestrator;
+export { CampaignOrchestrator };

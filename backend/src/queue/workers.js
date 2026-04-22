@@ -2,7 +2,7 @@
  * Queue Worker - Process publishing jobs
  */
 
-const PlatformFactory = require('../adapters/PlatformFactory');
+import PlatformFactory from '../adapters/PlatformFactory.js';
 
 class QueueWorker {
   constructor(jobRepository, campaignPlatformRepository, platformRepository, campaignRepository) {
@@ -168,4 +168,4 @@ class QueueWorker {
   }
 }
 
-module.exports = QueueWorker;
+export default QueueWorker;

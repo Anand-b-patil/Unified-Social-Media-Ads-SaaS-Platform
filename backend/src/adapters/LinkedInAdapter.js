@@ -2,7 +2,7 @@
  * LinkedIn Ads Platform Adapter
  */
 
-const BasePlatformAdapter = require('./BasePlatformAdapter');
+import BasePlatformAdapter from './BasePlatformAdapter.js';
 
 class LinkedInAdapter extends BasePlatformAdapter {
   constructor(accessToken, refreshToken = null) {
@@ -105,4 +105,4 @@ class LinkedInAdapter extends BasePlatformAdapter {
   }
 }
 
-module.exports = LinkedInAdapter;
+export default LinkedInAdapter;

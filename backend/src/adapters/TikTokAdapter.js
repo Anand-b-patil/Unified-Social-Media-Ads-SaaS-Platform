@@ -2,7 +2,7 @@
  * TikTok Ads Platform Adapter
  */
 
-const BasePlatformAdapter = require('./BasePlatformAdapter');
+import BasePlatformAdapter from './BasePlatformAdapter.js';
 
 class TikTokAdapter extends BasePlatformAdapter {
   constructor(accessToken, refreshToken = null) {
@@ -105,4 +105,4 @@ class TikTokAdapter extends BasePlatformAdapter {
   }
 }
 
-module.exports = TikTokAdapter;
+export default TikTokAdapter;

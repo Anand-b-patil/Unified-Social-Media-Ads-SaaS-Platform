@@ -69,4 +69,4 @@ class BasePlatformAdapter {
   }
 }
 
-module.exports = BasePlatformAdapter;
+export default BasePlatformAdapter;

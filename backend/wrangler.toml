@@ -3,6 +3,8 @@ type = "service"
 main = "src/index.js"
 compatibility_date = "2024-01-01"
 
+account_id = "4a0aa84a2e437cb99d036c5f5de08d77"   # 👈 ADD HERE
+
 [env.production]
 route = "api.socialmediaads.com/*"
 
@@ -16,12 +18,13 @@ route = "http://localhost:8787/*"
 [[d1_databases]]
 binding = "DB"
 database_name = "socialmediaads"
-database_id = "your-d1-database-id"
+database_id = "c527682e-791e-4a65-8f13-a04db1139dfe"
+migrations_dir = "src/migrations"
 
 # KV Namespace for caching and token storage
 [[kv_namespaces]]
 binding = "CACHE"
-id = "your-kv-namespace-id"
+id = "f3e95ddf0f8d4c3c938aa2caac48aa95"
 
 # R2 Bucket for media storage
 [[r2_buckets]]

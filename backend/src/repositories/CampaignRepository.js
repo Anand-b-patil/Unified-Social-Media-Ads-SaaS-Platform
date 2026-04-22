@@ -127,4 +127,4 @@ class CampaignRepository {
   }
 }
 
-module.exports = CampaignRepository;
+export default CampaignRepository;

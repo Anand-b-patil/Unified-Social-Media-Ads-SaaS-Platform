@@ -3,10 +3,11 @@
  * Handles rate limiting per platform
  */
 
-class RateLimiter {
+import { DurableObject } from 'cloudflare:workers';
+
+export class RateLimiter extends DurableObject {
   constructor(state, env) {
-    this.state = state;
-    this.env = env;
+    super(state, env);
     this.limits = {};
   }
 
@@ -149,4 +150,4 @@ class RateLimiter {
   }
 }
 
-module.exports = RateLimiter;
+export { RateLimiter };

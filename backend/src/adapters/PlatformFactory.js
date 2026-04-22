@@ -2,10 +2,10 @@
  * Platform Factory - Dynamically creates platform adapters
  */
 
-const MetaAdapter = require('./MetaAdapter');
-const GoogleAdsAdapter = require('./GoogleAdsAdapter');
-const TikTokAdapter = require('./TikTokAdapter');
-const LinkedInAdapter = require('./LinkedInAdapter');
+import MetaAdapter from './MetaAdapter.js';
+import GoogleAdsAdapter from './GoogleAdsAdapter.js';
+import TikTokAdapter from './TikTokAdapter.js';
+import LinkedInAdapter from './LinkedInAdapter.js';
 
 class PlatformFactory {
   static createAdapter(platformType, accessToken, refreshToken = null) {
@@ -37,4 +37,4 @@ class PlatformFactory {
   }
 }
 
-module.exports = PlatformFactory;
+export default PlatformFactory;

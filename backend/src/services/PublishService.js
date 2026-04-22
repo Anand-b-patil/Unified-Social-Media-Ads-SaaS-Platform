@@ -2,8 +2,8 @@
  * Publish Service - Handle campaign publishing to platforms
  */
 
-const { v4: uuidv4 } = require('uuid');
-const PlatformFactory = require('../adapters/PlatformFactory');
+import { v4 as uuidv4 } from 'uuid';
+import PlatformFactory from '../adapters/PlatformFactory.js';
 
 class PublishService {
   constructor(campaignRepository, campaignPlatformRepository, platformRepository, jobRepository, publishQueue, kvService) {
@@ -191,4 +191,4 @@ class PublishService {
   }
 }
 
-module.exports = PublishService;
+export default PublishService;

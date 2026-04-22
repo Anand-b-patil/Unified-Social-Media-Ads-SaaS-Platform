@@ -2,7 +2,7 @@
  * Meta (Facebook/Instagram) Platform Adapter
  */
 
-const BasePlatformAdapter = require('./BasePlatformAdapter');
+import BasePlatformAdapter from './BasePlatformAdapter.js';
 
 class MetaAdapter extends BasePlatformAdapter {
   constructor(accessToken, refreshToken = null) {
@@ -103,4 +103,4 @@ class MetaAdapter extends BasePlatformAdapter {
   }
 }
 
-module.exports = MetaAdapter;
+export default MetaAdapter;

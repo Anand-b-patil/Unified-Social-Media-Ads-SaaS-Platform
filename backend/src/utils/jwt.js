@@ -95,7 +95,7 @@ async function comparePasswords(password, hash) {
   return passwordHash === hash;
 }
 
-module.exports = {
+export {
   generateJWT,
   verifyJWT,
   hashPassword,

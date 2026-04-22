@@ -126,4 +126,4 @@ class CampaignPlatformRepository {
   }
 }
 
-module.exports = CampaignPlatformRepository;
+export default CampaignPlatformRepository;

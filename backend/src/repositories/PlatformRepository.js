@@ -135,4 +135,4 @@ class PlatformRepository {
   }
 }
 
-module.exports = PlatformRepository;
+export default PlatformRepository;

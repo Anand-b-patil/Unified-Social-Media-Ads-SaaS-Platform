@@ -2,51 +2,61 @@
  * Authentication Middleware
  */
 
-const { verifyJWT } = require('../utils/jwt');
+import { verifyJWT } from '../utils/jwt.js';
 
-async function authMiddleware(req, env) {
-  const authHeader = req.headers.get('authorization');
+async function authMiddleware(c, next) {
+  const authHeader = c.req.header('authorization');
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
+    return c.json({ success: false, error: 'Unauthorized' }, 401);
   }
 
   const token = authHeader.substring(7);
-  const payload = await verifyJWT(token, env.JWT_SECRET || 'dev-secret');
+  const payload = await verifyJWT(token, c.env.JWT_SECRET || 'dev-secret');
 
   if (!payload) {
-    return null;
+    return c.json({ success: false, error: 'Invalid token' }, 401);
   }
 
-  return {
+  c.set('user', {
     userId: payload.userId,
     email: payload.email,
-  };
+  });
+
+  await next();
 }
 
 function requireAuth(handler) {
-  return async (req, env, ctx) => {
-    const user = await authMiddleware(req, env);
+  return async (c) => {
+    const authHeader = c.req.header('authorization');
 
-    if (!user) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: 'Unauthorized',
-        }),
-        {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return c.json({ success: false, error: 'Unauthorized' }, 401);
     }
 
-    req.user = user;
-    return handler(req, env, ctx);
+    const token = authHeader.substring(7);
+    const payload = await verifyJWT(token, c.env.JWT_SECRET || 'dev-secret');
+
+    if (!payload) {
+      return c.json({ success: false, error: 'Invalid token' }, 401);
+    }
+
+    // Attach user to request object
+    Object.defineProperty(c.req, 'user', {
+      value: {
+        userId: payload.userId,
+        email: payload.email,
+      },
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+
+    return handler(c);
   };
 }
 
-module.exports = {
+export {
   authMiddleware,
   requireAuth,
 };

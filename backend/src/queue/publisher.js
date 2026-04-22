@@ -82,4 +82,4 @@ class QueuePublisher {
   }
 }
 
-module.exports = QueuePublisher;
+export default QueuePublisher;

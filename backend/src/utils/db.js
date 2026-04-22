@@ -96,7 +96,7 @@ function createDatabaseService(db) {
   return new DatabaseService(db);
 }
 
-module.exports = {
+export {
   DatabaseService,
   createDatabaseService,
 };

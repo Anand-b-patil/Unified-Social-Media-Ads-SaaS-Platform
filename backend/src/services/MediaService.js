@@ -2,7 +2,7 @@
  * Media Service - Handle media upload and management
  */
 
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
 class MediaService {
   constructor(mediaRepository, r2Bucket) {
@@ -87,4 +87,4 @@ class MediaService {
   }
 }
 
-module.exports = MediaService;
+export default MediaService;

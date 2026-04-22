@@ -2,8 +2,8 @@
  * Campaign Service - Handle campaign business logic
  */
 
-const { v4: uuidv4 } = require('uuid');
-const { validateCampaignName, validateAdCopy, validateBudget, validatePlatforms, mergeValidationResults } = require('../../shared/validators');
+import { v4 as uuidv4 } from 'uuid';
+import { validateCampaignName, validateAdCopy, validateBudget, validatePlatforms, mergeValidationResults } from '../utils/validators.js';
 
 class CampaignService {
   constructor(campaignRepository, campaignPlatformRepository, platformRepository) {
@@ -173,4 +173,4 @@ class CampaignService {
   }
 }
 
-module.exports = CampaignService;
+export default CampaignService;

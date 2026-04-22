@@ -49,7 +49,7 @@ function createSuccessResponse(data, statusCode = 200) {
   );
 }
 
-module.exports = {
+export {
   errorHandler,
   createErrorResponse,
   createSuccessResponse,

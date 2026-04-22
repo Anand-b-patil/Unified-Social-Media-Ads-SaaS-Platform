@@ -169,4 +169,4 @@ class JobRepository {
   }
 }
 
-module.exports = JobRepository;
+export default JobRepository;

@@ -4,7 +4,7 @@
 
 class AIService {
   constructor(openaiApiKey = null) {
-    this.openaiApiKey = openaiApiKey || process.env.OPENAI_API_KEY;
+    this.openaiApiKey = openaiApiKey;
   }
 
   async generateAdCopy(productName, targetAudience, tone = 'professional') {
@@ -89,4 +89,4 @@ class AIService {
   }
 }
 
-module.exports = AIService;
+export default AIService;

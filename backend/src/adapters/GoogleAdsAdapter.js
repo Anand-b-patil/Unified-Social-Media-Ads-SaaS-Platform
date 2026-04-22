@@ -2,7 +2,7 @@
  * Google Ads Platform Adapter
  */
 
-const BasePlatformAdapter = require('./BasePlatformAdapter');
+import BasePlatformAdapter from './BasePlatformAdapter.js';
 
 class GoogleAdsAdapter extends BasePlatformAdapter {
   constructor(accessToken, refreshToken = null) {
@@ -104,4 +104,4 @@ class GoogleAdsAdapter extends BasePlatformAdapter {
   }
 }
 
-module.exports = GoogleAdsAdapter;
+export default GoogleAdsAdapter;

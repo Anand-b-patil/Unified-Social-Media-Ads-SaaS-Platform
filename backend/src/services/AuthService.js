@@ -2,14 +2,15 @@
  * Authentication Service - Handle user authentication logic
  */
 
-const { generateJWT, hashPassword, comparePasswords } = require('../utils/jwt');
-const { validateEmail, validatePassword, mergeValidationResults } = require('../../shared/validators');
-const { v4: uuidv4 } = require('uuid');
+import { generateJWT, hashPassword, comparePasswords, verifyJWT } from '../utils/jwt.js';
+import { validateEmail, validatePassword, mergeValidationResults } from '../utils/validators.js';
+import { v4 as uuidv4 } from 'uuid';
 
 class AuthService {
-  constructor(userRepository, kvService) {
+  constructor(userRepository, kvService, jwtSecret = 'dev-secret') {
     this.userRepository = userRepository;
     this.kvService = kvService;
+    this.jwtSecret = jwtSecret;
   }
 
   async signup(email, password, name) {
@@ -38,7 +39,7 @@ class AuthService {
 
     await this.userRepository.updatePasswordHash(userId, passwordHash);
 
-    const token = await generateJWT({ userId, email }, process.env.JWT_SECRET || 'dev-secret', 86400);
+    const token = await generateJWT({ userId, email }, this.jwtSecret, 86400);
 
     return {
       token,
@@ -69,7 +70,7 @@ class AuthService {
       throw new Error('Invalid password');
     }
 
-    const token = await generateJWT({ userId: user.id, email: user.email }, process.env.JWT_SECRET || 'dev-secret', 86400);
+    const token = await generateJWT({ userId: user.id, email: user.email }, this.jwtSecret, 86400);
 
     return {
       token,
@@ -83,8 +84,7 @@ class AuthService {
   }
 
   async verifyToken(token) {
-    const { verifyJWT } = require('../utils/jwt');
-    const payload = await verifyJWT(token, process.env.JWT_SECRET || 'dev-secret');
+    const payload = await verifyJWT(token, this.jwtSecret);
 
     if (!payload) {
       return null;
@@ -99,4 +99,4 @@ class AuthService {
   }
 }
 
-module.exports = AuthService;
+export default AuthService;

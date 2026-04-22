@@ -2,8 +2,8 @@
  * Platform Service - Handle platform integrations
  */
 
-const { v4: uuidv4 } = require('uuid');
-const PlatformFactory = require('../adapters/PlatformFactory');
+import { v4 as uuidv4 } from 'uuid';
+import PlatformFactory from '../adapters/PlatformFactory.js';
 
 class PlatformService {
   constructor(platformRepository) {
@@ -126,4 +126,4 @@ class PlatformService {
   }
 }
 
-module.exports = PlatformService;
+export default PlatformService;

@@ -51,7 +51,7 @@ function initializeServices(env) {
     platformRepo: new PlatformRepository(db),
     campaignPlatformRepo: new CampaignPlatformRepository(db),
     jobRepo: new JobRepository(db),
-    authService: new AuthService(new UserRepository(db), kv),
+    authService: new AuthService(new UserRepository(db), kv, env.JWT_SECRET || 'dev-secret'),
     campaignService: new CampaignService(
       new CampaignRepository(db),
       new CampaignPlatformRepository(db),
@@ -85,6 +85,7 @@ app.post('/api/auth/signup', async (c) => {
 
     return createSuccessResponse(result, 201);
   } catch (error) {
+    console.error('Signup error:', error);
     return createErrorResponse(error.message, 400);
   }
 });
@@ -135,6 +136,7 @@ app.post(
 
       return createSuccessResponse(campaign, 201);
     } catch (error) {
+      console.error('Campaign creation error:', error);
       return createErrorResponse(error.message, 400);
     }
   })

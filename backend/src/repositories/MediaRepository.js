@@ -76,4 +76,4 @@ class MediaRepository {
   }
 }
 
-module.exports = MediaRepository;
+export default MediaRepository;

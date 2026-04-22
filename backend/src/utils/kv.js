@@ -88,7 +88,7 @@ function createKVService(kv) {
   return new KVService(kv);
 }
 
-module.exports = {
+export {
   KVService,
   createKVService,
 };
