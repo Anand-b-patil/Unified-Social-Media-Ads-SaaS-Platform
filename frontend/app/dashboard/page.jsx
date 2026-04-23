@@ -70,6 +70,12 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <div className="flex items-center gap-4">
+            <button
+              onClick={() => router.push('/dashboard/platforms')}
+              className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg"
+            >
+              Platforms
+            </button>
             <span className="text-gray-600">{user?.email}</span>
             <button
               onClick={handleLogout}

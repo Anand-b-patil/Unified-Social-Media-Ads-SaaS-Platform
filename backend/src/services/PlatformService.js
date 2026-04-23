@@ -80,7 +80,16 @@ class PlatformService {
       throw new Error('Platform not connected');
     }
 
-    await this.platformRepository.delete(platform.id);
+    await this.platformRepository.update(platform.id, {
+      accessToken: null,
+      refreshToken: null,
+      tokenExpiresAt: null,
+      isActive: false,
+      metadata: {
+        ...(platform.metadata || {}),
+        disconnectedAt: new Date().toISOString(),
+      },
+    });
   }
 
   async validateConnection(platformId) {

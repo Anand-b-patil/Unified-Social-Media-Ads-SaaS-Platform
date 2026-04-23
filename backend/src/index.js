@@ -29,6 +29,7 @@ import MediaService from './services/MediaService.js';
 import PlatformService from './services/PlatformService.js';
 import PublishService from './services/PublishService.js';
 import AIService from './services/AIService.js';
+import QueueWorker from './queue/workers.js';
 
 // Import middleware
 import { requireAuth } from './middleware/auth.js';
@@ -69,6 +70,17 @@ function initializeServices(env) {
     ),
     aiService: new AIService(env.OPENAI_API_KEY),
   };
+}
+
+function initializeQueueWorker(env) {
+  const db = createDatabaseService(env.DB);
+
+  return new QueueWorker(
+    new JobRepository(db),
+    new CampaignPlatformRepository(db),
+    new PlatformRepository(db),
+    new CampaignRepository(db)
+  );
 }
 
 // Auth Routes
@@ -405,4 +417,15 @@ app.all('*', (c) => {
 // Export for Cloudflare Workers
 export default {
   fetch: app.fetch.bind(app),
+  async queue(batch, env, ctx) {
+    const worker = initializeQueueWorker(env);
+
+    for (const message of batch.messages) {
+      try {
+        await worker.processJob(message.body);
+      } catch (error) {
+        console.error('Queue message processing failed:', error);
+      }
+    }
+  },
 };

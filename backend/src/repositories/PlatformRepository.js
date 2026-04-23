@@ -7,6 +7,18 @@ class PlatformRepository {
     this.db = db;
   }
 
+  normalizeDateValue(value) {
+    if (value === null || value === undefined) {
+      return null;
+    }
+
+    if (value instanceof Date) {
+      return value.toISOString();
+    }
+
+    return value;
+  }
+
   async create(platform) {
     const now = new Date();
 
@@ -19,7 +31,7 @@ class PlatformRepository {
         platform.platformType,
         platform.accessToken,
         platform.refreshToken || null,
-        platform.tokenExpiresAt || null,
+        this.normalizeDateValue(platform.tokenExpiresAt),
         platform.isActive ? 1 : 0,
         JSON.stringify(platform.metadata || {}),
         now.toISOString(),
@@ -96,7 +108,7 @@ class PlatformRepository {
 
     if (updates.tokenExpiresAt !== undefined) {
       fields.push('token_expires_at = ?');
-      values.push(updates.tokenExpiresAt);
+      values.push(this.normalizeDateValue(updates.tokenExpiresAt));
     }
 
     if (updates.isActive !== undefined) {

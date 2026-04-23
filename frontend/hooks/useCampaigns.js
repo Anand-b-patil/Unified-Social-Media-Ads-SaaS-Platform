@@ -25,7 +25,7 @@ export function useCampaigns() {
         mutate();
         return response.data.data;
       } catch (error) {
-        throw error.response?.data?.error || 'Failed to create campaign';
+        throw new Error(error.response?.data?.error || 'Failed to create campaign');
       }
     },
     [mutate]
@@ -38,7 +38,7 @@ export function useCampaigns() {
         mutate();
         return response.data.data;
       } catch (error) {
-        throw error.response?.data?.error || 'Failed to update campaign';
+        throw new Error(error.response?.data?.error || 'Failed to update campaign');
       }
     },
     [mutate]
@@ -50,7 +50,7 @@ export function useCampaigns() {
         await campaignAPI.delete(id);
         mutate();
       } catch (error) {
-        throw error.response?.data?.error || 'Failed to delete campaign';
+        throw new Error(error.response?.data?.error || 'Failed to delete campaign');
       }
     },
     [mutate]
@@ -63,7 +63,7 @@ export function useCampaigns() {
         mutate();
         return response.data.data;
       } catch (error) {
-        throw error.response?.data?.error || 'Failed to duplicate campaign';
+        throw new Error(error.response?.data?.error || 'Failed to duplicate campaign');
       }
     },
     [mutate]

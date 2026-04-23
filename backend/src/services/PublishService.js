@@ -78,6 +78,10 @@ class PublishService {
           status: 'failed',
           errorMessage: `Queue error: ${error.message}`,
         });
+        await this.campaignPlatformRepository.update(campaignPlatform.id, {
+          status: 'failed',
+          errorMessage: `Queue error: ${error.message}`,
+        });
       }
     }
 

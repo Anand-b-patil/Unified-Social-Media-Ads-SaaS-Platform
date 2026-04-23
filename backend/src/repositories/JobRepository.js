@@ -7,6 +7,18 @@ class JobRepository {
     this.db = db;
   }
 
+  normalizeDateValue(value) {
+    if (value === null || value === undefined) {
+      return null;
+    }
+
+    if (value instanceof Date) {
+      return value.toISOString();
+    }
+
+    return value;
+  }
+
   async create(job) {
     const now = new Date();
 
@@ -133,12 +145,12 @@ class JobRepository {
 
     if (updates.nextRetryAt !== undefined) {
       fields.push('next_retry_at = ?');
-      values.push(updates.nextRetryAt);
+      values.push(this.normalizeDateValue(updates.nextRetryAt));
     }
 
     if (updates.completedAt !== undefined) {
       fields.push('completed_at = ?');
-      values.push(updates.completedAt);
+      values.push(this.normalizeDateValue(updates.completedAt));
     }
 
     if (fields.length === 0) {

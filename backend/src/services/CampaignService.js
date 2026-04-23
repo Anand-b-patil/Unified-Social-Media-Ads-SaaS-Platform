@@ -28,6 +28,23 @@ class CampaignService {
       throw new Error(`Validation failed: ${errors.map((e) => e.message).join(', ')}`);
     }
 
+    const connectedPlatforms = [];
+
+    for (const platformType of campaignData.platforms) {
+      const platform = await this.platformRepository.findByUserAndType(userId, platformType);
+
+      if (!platform || !platform.isActive) {
+        throw new Error(
+          `Platform ${platformType} is not connected. Connect it from the Platforms page before creating this campaign.`
+        );
+      }
+
+      connectedPlatforms.push({
+        platformType,
+        platformId: platform.id,
+      });
+    }
+
     const campaignId = `campaign_${uuidv4()}`;
 
     const campaign = await this.campaignRepository.create({
@@ -46,18 +63,12 @@ class CampaignService {
     });
 
     // Create campaign-platform associations
-    for (const platformType of campaignData.platforms) {
-      const platform = await this.platformRepository.findByUserAndType(userId, platformType);
-
-      if (!platform) {
-        throw new Error(`Platform ${platformType} not connected for user`);
-      }
-
+    for (const { platformType, platformId } of connectedPlatforms) {
       const campaignPlatformId = `cp_${uuidv4()}`;
       await this.campaignPlatformRepository.create({
         id: campaignPlatformId,
         campaignId,
-        platformId: platform.id,
+        platformId,
         platformType,
         status: 'pending',
       });
